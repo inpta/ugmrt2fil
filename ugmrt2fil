@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+
+import getopt
+import sys
+import os
+
+opts, args = getopt.gnu_getopt(sys.argv[1:], 'i:o:d:f:c:w:t:uh')
+opts = dict(opts)
+
+def print_usage():
+    print("Usage : ugmrt2fil -i <infile> -o <outfile> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-h]")
+    print("-i   Input file in uGMRT raw data format")
+    print("-u   Output file in sigproc filterbank format")
+    print("-d   Timestamp in MJD")
+    print("-f   Observing frequency (MHz)")
+    print("-c   Number of channels")
+    print("-w   Bandwidth (MHz)")
+    print("-t   Sampling time (s)")
+    print("-u   Enable USB (Default is LSB)")
+    print("-h   Display this help message.")
+
+def check_req_opt(opt, desc):
+    if opts.get("-"+opt) is None:
+        print(desc+" is a required argument.\n")
+        print_usage() 
+        sys.exit(0)
+    return opts.get("-"+opt)
+
+if opts.get("-h") is not None:
+    print_usage()
+    sys.exit(0)
+    
+infile  = check_req_arg('i', "Input file")
+outfile = check_req_arg('o', "Output file")
+mjd     = check_req_arg('d', "Timestamp")
+freq    = check_req_arg('f', "Observing frequency")
+nchan   = check_req_arg('c', "No. of channels")
+bw      = check_req_arg('w', "Bandwidth")
+tsmpl   = check_req_arg('t', "Sampling time")
+usb     = opts.get("-u") is not None
+
+
+if not usb:
+    print("Running ugmrt2fil for LSB.")
+    headfile = os.path.basename(outfile) + ".head"
+    print("ugmrtfilhead {} {} {} {} {} {} {} {}".format(infile, outfile, mjd, freq, nchan, bw, tsmpl, headfile))
+    print("cat {} {} > {}".format(headfile, infile, outfile))
+else:
+    print("Running ugmrt2fil for USB.")
+    print("ugmrtusb2fil {} {} {} {} {} {} {}".format(infile, outfile, mjd, freq, nchan, bw, tsmpl))
+    
