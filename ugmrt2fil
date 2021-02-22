@@ -45,9 +45,10 @@ usb     = opts.get("-u") is not None
 if not usb:
     print("Running ugmrt2fil for LSB.")
     headfile = os.path.basename(outfile) + ".head"
-    print("ugmrtfilhead {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, headfile))
-    print("cat {} {} > {}".format(headfile, infile, outfile))
+    os.system("ugmrtfilhead {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, headfile))
+    os.system("cat {} {} > {}".format(headfile, infile, outfile))
+    os.system("rm {}".format(headfile))
 else:
     print("Running ugmrt2fil for USB.")
-    print("ugmrtusb2fil {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl))
+    os.system("ugmrtusb2fil {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl))
     
