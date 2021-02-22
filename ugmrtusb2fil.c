@@ -22,7 +22,8 @@ int main(int argc, char **argv){
     double mjd, freq, bw, tsmpl;
     int nchan;
     
-    int infile_size, Nsmpl, ismpl, data_size;
+    long infile_size, Nsmpl, ismpl;
+    int data_size;
     
     uint16_t *data;
     
