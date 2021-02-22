@@ -52,3 +52,5 @@ else:
     print("Running ugmrt2fil for USB.")
     os.system("ugmrtusb2fil {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl))
     
+    
+    
