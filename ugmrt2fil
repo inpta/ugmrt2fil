@@ -30,13 +30,13 @@ if opts.get("-h") is not None:
     print_usage()
     sys.exit(0)
     
-infile  = check_req_arg('i', "Input file")
-outfile = check_req_arg('o', "Output file")
-mjd     = check_req_arg('d', "Timestamp")
-freq    = check_req_arg('f', "Observing frequency")
-nchan   = check_req_arg('c', "No. of channels")
-bw      = check_req_arg('w', "Bandwidth")
-tsmpl   = check_req_arg('t', "Sampling time")
+infile  = check_req_opt('i', "Input file")
+outfile = check_req_opt('o', "Output file")
+mjd     = check_req_opt('d', "Timestamp")
+freq    = check_req_opt('f', "Observing frequency")
+nchan   = check_req_opt('c', "No. of channels")
+bw      = check_req_opt('w', "Bandwidth")
+tsmpl   = check_req_opt('t', "Sampling time")
 usb     = opts.get("-u") is not None
 
 
