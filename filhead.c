@@ -47,7 +47,6 @@ void filterbank_header(FILE *outfile, char *infilename, char *jname, int mjd, do
     send_string(outfile, jname);
     
     send_int(outfile, "machine_id", machine_id);
-    
     send_int(outfile, "telescope_id", telescope_id);
     
     send_int(outfile, "data_type", 1);
