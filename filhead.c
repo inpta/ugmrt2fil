@@ -49,6 +49,11 @@ void filterbank_header(FILE *outfile, char *infilename, char *jname, int mjd, do
     send_int(outfile, "machine_id", machine_id);
     send_int(outfile, "telescope_id", telescope_id);
     
+    send_double(outfile, "src_raj", 0);
+    send_double(outfile, "src_dej", 0);
+    send_double(outfile, "az_start", 0);
+    send_double(outfile, "za_start", 0);
+    
     send_int(outfile, "data_type", 1);
       
     send_double(outfile, "fch1", freq);
