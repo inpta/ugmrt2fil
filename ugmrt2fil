@@ -8,13 +8,14 @@ opts, args = getopt.gnu_getopt(sys.argv[1:], 'i:o:d:f:c:w:t:uh')
 opts = dict(opts)
 
 def print_usage():
-    print("Usage : ugmrt2fil -i <infile> -o <outfile> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-h]")
+    print("Usage : ugmrt2fil -i <infile> -o <outfile> -j <JNAME> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-h]")
     print("-i   Input file in uGMRT raw data format")
     print("-u   Output file in sigproc filterbank format")
+    print("-j   JNAME of the source")
     print("-d   Timestamp in MJD")
     print("-f   Observing frequency (MHz)")
     print("-c   Number of channels")
-    print("-w   Bandwidth (MHz)")
+    print("-w   Bandwidth of a single channel (MHz)")
     print("-t   Sampling time (s)")
     print("-u   Enable USB (Default is LSB)")
     print("-h   Display this help message.")
@@ -32,6 +33,7 @@ if opts.get("-h") is not None:
     
 infile  = check_req_opt('i', "Input file")
 outfile = check_req_opt('o', "Output file")
+jname   = check_req_opt('j', "JNAME")
 mjd     = check_req_opt('d', "Timestamp")
 freq    = check_req_opt('f', "Observing frequency")
 nchan   = check_req_opt('c', "No. of channels")
@@ -43,9 +45,9 @@ usb     = opts.get("-u") is not None
 if not usb:
     print("Running ugmrt2fil for LSB.")
     headfile = os.path.basename(outfile) + ".head"
-    print("ugmrtfilhead {} {} {} {} {} {} {} {}".format(infile, outfile, mjd, freq, nchan, bw, tsmpl, headfile))
+    print("ugmrtfilhead {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, headfile))
     print("cat {} {} > {}".format(headfile, infile, outfile))
 else:
     print("Running ugmrt2fil for USB.")
-    print("ugmrtusb2fil {} {} {} {} {} {} {}".format(infile, outfile, mjd, freq, nchan, bw, tsmpl))
+    print("ugmrtusb2fil {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl))
     
