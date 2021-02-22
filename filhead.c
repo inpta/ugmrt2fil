@@ -1,6 +1,10 @@
 #include "filhead.h"
 #include <string.h>
 
+/*
+    This part of the code is based on sigproc program by Duncan Lorimer.
+*/
+
 void send_string(FILE *outfile, char *string){
     int len;
     len = strlen(string);
