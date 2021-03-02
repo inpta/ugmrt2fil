@@ -1,4 +1,3 @@
-CC=gcc
 CXX=g++
 CFLAGS=-O -Wall -Wno-unused-result
 
@@ -8,10 +7,10 @@ all: ugmrtfilhead ugmrtusb2fil
 ugmrtfilhead: filhead.o ugmrtfilhead.o
 	$(CXX) -o $@ $^ $(CFLAGS)
 
-filhead.o: filhead.c filhead.h
+filhead.o: filhead.cpp filhead.h
 	$(CXX) -o $@ -c $< $(CFLAGS)
 
-ugmrtfilhead.o: ugmrtfilhead.c filhead.h
+ugmrtfilhead.o: ugmrtfilhead.cpp filhead.h
 	$(CXX) -o $@ -c $< $(CFLAGS)
 
 ugmrtusb2fil: filhead.o ugmrtusb2fil.o
