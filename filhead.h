@@ -9,6 +9,6 @@ void send_double(FILE *outfile, char *name, double number);
 void send_int(FILE *outfile, char *name, int number);
 void send_long(FILE *outfile, char *name, long number);
 
-void filterbank_header(FILE *outfile, char *infilename, char *jname, int mjd, double freq, double bw, int nchan, double tsmpl);
+void filterbank_header(FILE *outfile, char *infilename, char *jname, double mjd, double freq, double bw, int nchan, double tsmpl);
 
 #endif
