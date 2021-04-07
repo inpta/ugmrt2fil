@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*
+/* 
+ * => This program is supposed to be called from the `ugmrt2fil` script. 
+ *    Input validation logic is only implemented there.
+ *
  * Command line arguments
  *      Input filename (Raw data)
  *      Output filename (fil)
