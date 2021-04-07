@@ -2,6 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * Command line arguments
+ *      Input filename (Raw data)
+ *      Output filename (fil)
+ *      JNAME of source
+ *      Timestamp at the start of observation (MJD)
+ *      Observing frequency (MHz)
+ *      Number of channels
+ *      Acquisition bandwidth (MHz)
+ *      Sampling time (s)
+ *      Number of bits (8 or 16)
+ *      Number of Stokes parameters (1 or 4)
+ *      Header file name
+ */
 int main(int argc, char **argv){
 
     char infilename[150], outfilename[150], headfilename[150];

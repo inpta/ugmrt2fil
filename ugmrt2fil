@@ -22,8 +22,8 @@ def print_usage():
     print("-w   Bandwidth of a single channel (MHz)")
     print("-t   Sampling time (s)")
     print("-u   Enable USB (Default is LSB)")
-    print("-B   Number of bits (8 or 16)")
-    print("-P   Number of polarization products (1 or 4)")
+    print("-B   Number of bits (8 or 16) (Default is 16)")
+    print("-P   Number of polarization products (1 or 4) (Default is 1)")
     print("-h   Display this help message.")
 
 def check_req_opt(opt, desc):
