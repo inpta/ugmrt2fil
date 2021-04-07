@@ -37,7 +37,7 @@ def check_default_opt(opt, desc, default, allowed):
     if opts.get("-"+opt) is None:
         print("Using default value ({}) for {}.".format(default, desc))
         return default
-    elif opts.get("-"+opt) not in allowed:
+    elif int(opts.get("-"+opt)) not in allowed:
         print("Invalid value for "+desc)
         sys.exit(0)
     else: 
@@ -57,7 +57,7 @@ bw      = check_req_opt('w', "Bandwidth")
 tsmpl   = check_req_opt('t', "Sampling time")
 usb     = opts.get("-u") is not None
 nbit    = check_default_opt('B', "Number of bits", 16, [8,16])
-npol    = check_default_opt('P', "Number of polarization products", 1, [1,4])
+npol    = check_default_opt('P', "Number of number of Stokes parameters", 1, [1,4])
 
 if not usb:
     print("Running ugmrt2fil for LSB.")

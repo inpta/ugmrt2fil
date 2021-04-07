@@ -32,12 +32,28 @@ void send_long(FILE *outfile, const char *name, long number){
     fwrite(&number, sizeof(long), 1, outfile);
 }
 
-void filterbank_header(FILE *outfile, const char *infilename, const char *jname, int mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int npol){
-    
+void print_header_info(const char *jname, double mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int npol){
+    printf("Filterbank header\n");
+    printf("=================\n");
+    printf("TELESCOPE_ID        %d\n",  7);
+    printf("MACHINE_ID          %d\n",  14);
+    printf("MJD_START           %lf\n", mjd);
+    printf("FREQUENCY           %lf\n", freq);
+    printf("CHANWIDTH           %lf\n", bw);
+    printf("NCHAN               %d\n",  nchan);
+    printf("TSMPL               %lf\n", tsmpl);
+    printf("NBIT                %d\n",  nbit);
+    printf("NPOL                %d\n",  npol);
+}
+
+void filterbank_header(FILE *outfile, const char *infilename, const char *jname, double mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int npol){    
+
     int nbeams = 1;
     int ibeam = 1;
     int machine_id = 14;
     int telescope_id = 7;
+
+    print_header_info(jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
   
     /* broadcast the header parameters to the output stream */
     send_string(outfile, "HEADER_START");

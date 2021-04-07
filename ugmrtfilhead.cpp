@@ -47,8 +47,8 @@ int main(int argc, char **argv){
     if(mjd==0 || freq<=0 || nchan<=0 || bw==0 || tsmpl<=0 || (!(nbit==8 || nbit==16)) || (!(npol==1 || npol==4))){
         fprintf(stderr, "Invalid argument(s) found.\n");
         exit(1);
-    }
-    
+    }    
+
     FILE *outfile = fopen(headfilename, "wb");
     if(outfile==NULL){
         fprintf(stderr, "Error opening file %s for writing.\n", headfilename);
