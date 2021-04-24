@@ -16,7 +16,7 @@ ugmrtfilhead.o: ugmrtfilhead.cpp filhead.h
 ugmrtusb2fil: filhead.o ugmrtusb2fil.o
 	$(CXX) -o $@ $^ $(CFLAGS)
 
-ugmrtusb2fil.o: ugmrtusb2fil.cpp filhead.h
+ugmrtusb2fil.o: ugmrtusb2fil.cpp filhead.h ugmrt2fil.h
 	$(CXX) -o $@ -c $< $(CFLAGS)
 
 .PHONY: clean

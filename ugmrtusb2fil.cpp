@@ -1,22 +1,11 @@
-#include "filhead.h"
+#include "ugmrt2fil.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 
-template <typename T>
-void reverse_channels(T *data, int nchan){
-    T tmp;
-    
-    for(int i=0; i<nchan/2; i++){
-        int j = nchan-i-1;
-        tmp = data[i];
-        data[i] = data[j];
-        data[j] = tmp;
-    }
-}
 
 template <typename T>
-void ugmrtusb2fil(FILE *infile, FILE *outfile, const char *infilename, const char *jname, int mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int npol){
+void ugmrtusb2fil(FILE *infile, FILE *outfile, const char *infilename, const char *jname, int mjd, double freq, double bw, int nchan, double tsmpl, int nbit){
 
     fseek(infile, 0, SEEK_END);
     long infile_size = ftell(infile);
@@ -32,7 +21,7 @@ void ugmrtusb2fil(FILE *infile, FILE *outfile, const char *infilename, const cha
     
     long Nsmpl = infile_size/data_size;
     
-    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
+    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, 1);
     
     T *data = (T*)malloc(data_size);
     
@@ -50,7 +39,7 @@ int main(int argc, char **argv){
     char infilename[150], outfilename[150];
     char jname[20];
     double mjd, freq, bw, tsmpl;
-    int nchan, nbit, npol;
+    int nchan, nbit;
         
     if(argc != 9){
         fprintf(stderr, "Invalid number of arguments.\n");
@@ -67,9 +56,8 @@ int main(int argc, char **argv){
     bw      = atof(argv[7]);
     tsmpl   = atof(argv[8]);
     nbit    = atoi(argv[9]);
-    npol    = atoi(argv[10]);
     
-    if(mjd==0 || freq<=0 || nchan<=0 || bw==0 || tsmpl<=0 || (!(nbit==8 || nbit==16)) || (!(npol==1 || npol==4))){
+    if(mjd==0 || freq<=0 || nchan<=0 || bw==0 || tsmpl<=0 || (!(nbit==8 || nbit==16)) ){
         fprintf(stderr, "Invalid argument(s) found.\n");
         exit(1);
     }
@@ -86,17 +74,11 @@ int main(int argc, char **argv){
         exit(1);
     }
     
-    if(nbit == 8 && npol==1){
-        ugmrtusb2fil<uint8_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
+    if(nbit == 8){
+        ugmrtusb2fil<uint8_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit);
     }
-    else if(nbit == 16 && npol==1){
-        ugmrtusb2fil<uint16_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
-    }
-    else if(nbit == 8 && npol==4){
-        ugmrtusb2fil<uint32_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
-    }
-    else if(nbit == 16 && npol==4){
-        ugmrtusb2fil<uint64_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
+    else if(nbit == 16){
+        ugmrtusb2fil<uint16_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit);
     }
     
     fclose(infile);
