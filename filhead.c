@@ -32,12 +32,11 @@ void send_long(FILE *outfile, char *name, long number){
     fwrite(&number, sizeof(long), 1, outfile);
 }
 
-void filterbank_header(FILE *outfile, char *infilename, char *jname, double mjd, double freq, double bw, int nchan, double tsmpl){
+void filterbank_header(FILE *outfile, char *infilename, char *jname, double mjd, double freq, double bw, int nchan, double tsmpl, int nifs){
     
     int nbits = 16;
     int nbeams = 1;
     int ibeam = 1;
-    int nifs = 1;
     int machine_id = 14;
     int telescope_id = 7;
   

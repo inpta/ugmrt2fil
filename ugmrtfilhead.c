@@ -36,7 +36,7 @@ int main(int argc, char **argv){
         exit(1);
     }
     
-    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl);
+    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, 1);
     
     fclose(outfile);    
 

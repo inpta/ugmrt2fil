@@ -71,7 +71,7 @@ int main(int argc, char **argv){
     
     Nsmpl = infile_size/data_size;
     
-    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl);
+    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, 1);
     
     data = (uint16_t*)malloc(data_size);
     
