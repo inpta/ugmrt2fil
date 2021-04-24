@@ -59,15 +59,27 @@ usb     = opts.get("-u") is not None
 nbit    = check_default_opt('B', "Number of bits", 16, [8,16])
 npol    = check_default_opt('P', "Number of number of Stokes parameters", 1, [1,4])
 
-if not usb:
-    print("Running ugmrt2fil for LSB.")
-    headfile = os.path.basename(outfile) + ".head"
-    os.system("ugmrtfilhead {} {} {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit, npol, headfile))
-    os.system("cat {} {} > {}".format(headfile, infile, outfile))
-    os.system("rm {}".format(headfile))
-else:
-    print("Running ugmrt2fil for USB.")
-    os.system("ugmrtusb2fil {} {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit, npol))
-    
+if npol == 1:
+    if (not usb):
+        # CASE 1
+        # ======
+        # LSB with total intensity mode.
+        # In this case, the data is already in the sigproc-filterbank format.
+        # We just have to prepend the appropriate header.
+        print("Running ugmrt2fil for LSB (Total Intensity).")
+        headfile = os.path.basename(outfile) + ".head"
+        os.system("ugmrtfilhead {} {} {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit, npol, headfile))
+        os.system("cat {} {} > {}".format(headfile, infile, outfile))
+        os.system("rm {}".format(headfile))
+    else:
+        # CASE 2
+        # ======
+        # USB with total intensity mode.
+        # Prepend header and reverse channels.
+        print("Running ugmrt2fil for USB (Total Intensity).")
+        os.system("ugmrtusb2fil {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit))
+elif npol == 4:
+    pass
+
     
     
