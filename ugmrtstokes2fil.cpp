@@ -5,7 +5,7 @@
 
 
 template <typename T>
-void ugmrtstokes2fil(FILE *infile, FILE *outfile, const char *infilename, const char *jname, int mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int usb){
+void ugmrtstokes2fil(FILE *infile, FILE *outfile, const char *infilename, const char *jname, double mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int usb){
 
     fseek(infile, 0, SEEK_END);
     long infile_size = ftell(infile);
@@ -22,23 +22,39 @@ void ugmrtstokes2fil(FILE *infile, FILE *outfile, const char *infilename, const 
     }
     
     long Nsmpl = infile_size/data_size;
-    
+
+    printf("Size of one sample = %ld B\n",data_size);
+    printf("No of samples = %ld\n",Nsmpl);    
+    printf("USB? = %d\n", usb);    
+
     filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
     
     T *data = (T*)malloc(data_size);
     
     for(long ismpl=0; ismpl<Nsmpl; ismpl++){
-        fread(data, sizeof(T), nchan, infile);
-        
+        fread(data, sizeof(T), data_size, infile);
+
+        /*for(int I=0; I<data_size && ismpl==0; I++){
+            printf("%d,", data[I]);
+        }        
+        printf("\n");*/
+
         correct_stokes<T>(data, nchan);
-        
+
+        /*for(int I=0; I<data_size && ismpl==0; I++){
+            printf("%d,", data[I]);
+        }        
+        printf("\n");*/
+
         if(usb){
             reverse_channels<T>(data, nchan, npol);
         }
         
-        fwrite(data, sizeof(T), nchan, outfile);
+        fwrite(data, sizeof(T), data_size, outfile);
     } 
-    
+
+    //printf("%ld/%ld written\n", ismpl+1, Nsmpl);    
+
     free(data);
 }
 
