@@ -2,7 +2,7 @@ CXX=g++
 CFLAGS=-O -Wall -Wno-unused-result
 
 .PHONY: all
-all: ugmrtfilhead ugmrtusb2fil
+all: ugmrtfilhead ugmrtusb2fil ugmrtstokes2fil
 
 ugmrtfilhead: filhead.o ugmrtfilhead.o
 	$(CXX) -o $@ $^ $(CFLAGS)
@@ -18,7 +18,13 @@ ugmrtusb2fil: filhead.o ugmrtusb2fil.o
 
 ugmrtusb2fil.o: ugmrtusb2fil.cpp filhead.h ugmrt2fil.h
 	$(CXX) -o $@ -c $< $(CFLAGS)
+	
+ugmrtstokes2fil: filhead.o ugmrtstokes2fil.o
+	$(CXX) -o $@ $^ $(CFLAGS)
+
+ugmrtstokes2fil.o: ugmrtstokes2fil.cpp filhead.h ugmrt2fil.h
+	$(CXX) -o $@ -c $< $(CFLAGS)
 
 .PHONY: clean
 clean:
-	rm *.o ugmrtfilhead ugmrtusb2fil
+	rm *.o ugmrtfilhead ugmrtusb2fil ugmrtstokes2fil

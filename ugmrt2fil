@@ -79,7 +79,14 @@ if npol == 1:
         print("Running ugmrt2fil for USB (Total Intensity).")
         os.system("ugmrtusb2fil {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit))
 elif npol == 4:
-    pass
+    # CASE 3
+    # ======
+    # LSB or USB with full Stokes mode.
+    # Prepend header, correct the order of polarization data and reverse channels.
+    # uGMRT full Stokes format :: PP PQ QQ QP
+    # Format expected by dspsr :: PP QQ PQ QP
+    print("Running ugmrt2fil for {} (Full Stokes).".format("USB" if usb else "LSB"))
+    os.system("ugmrtstokes2fil {} {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit, int(usb)))
 
     
     

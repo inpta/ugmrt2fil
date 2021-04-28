@@ -5,13 +5,15 @@
 
 
 template <typename T>
-void ugmrtusb2fil(FILE *infile, FILE *outfile, const char *infilename, const char *jname, int mjd, double freq, double bw, int nchan, double tsmpl, int nbit){
+void ugmrtstokes2fil(FILE *infile, FILE *outfile, const char *infilename, const char *jname, int mjd, double freq, double bw, int nchan, double tsmpl, int nbit, int usb){
 
     fseek(infile, 0, SEEK_END);
     long infile_size = ftell(infile);
     fseek(infile, 0, SEEK_SET);
 
-    long data_size = sizeof(T)*nchan;
+    const int npol = 4;
+
+    long data_size = sizeof(T)*nchan*npol;
     
     if((infile_size%data_size) != 0){
         fprintf(stderr, "The input file size is incompatible with given nchan, nbit and npol.\n");
@@ -21,13 +23,19 @@ void ugmrtusb2fil(FILE *infile, FILE *outfile, const char *infilename, const cha
     
     long Nsmpl = infile_size/data_size;
     
-    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, 1);
+    filterbank_header(outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, npol);
     
     T *data = (T*)malloc(data_size);
     
     for(long ismpl=0; ismpl<Nsmpl; ismpl++){
         fread(data, sizeof(T), nchan, infile);
-        reverse_channels<T>(data, nchan, 1);
+        
+        correct_stokes<T>(data, nchan);
+        
+        if(usb){
+            reverse_channels<T>(data, nchan, npol);
+        }
+        
         fwrite(data, sizeof(T), nchan, outfile);
     } 
     
@@ -39,9 +47,9 @@ int main(int argc, char **argv){
     char infilename[150], outfilename[150];
     char jname[20];
     double mjd, freq, bw, tsmpl;
-    int nchan, nbit;
+    int nchan, nbit, usb;
         
-    if(argc != 9){
+    if(argc != 11){
         fprintf(stderr, "Invalid number of arguments.\n");
         exit(1);
     }
@@ -56,6 +64,7 @@ int main(int argc, char **argv){
     bw      = atof(argv[7]);
     tsmpl   = atof(argv[8]);
     nbit    = atoi(argv[9]);
+    usb     = atoi(argv[10]);
     
     if(mjd==0 || freq<=0 || nchan<=0 || bw==0 || tsmpl<=0 || (!(nbit==8 || nbit==16)) ){
         fprintf(stderr, "Invalid argument(s) found.\n");
@@ -75,10 +84,10 @@ int main(int argc, char **argv){
     }
     
     if(nbit == 8){
-        ugmrtusb2fil<uint8_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit);
+        ugmrtstokes2fil<uint8_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, usb);
     }
     else if(nbit == 16){
-        ugmrtusb2fil<uint16_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit);
+        ugmrtstokes2fil<uint16_t>(infile, outfile, infilename, jname, mjd, freq, bw, nchan, tsmpl, nbit, usb);
     }
     
     fclose(infile);
