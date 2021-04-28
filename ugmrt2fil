@@ -59,7 +59,7 @@ usb     = opts.get("-u") is not None
 nbit    = check_default_opt('B', "Number of bits", 16, [8,16])
 npol    = check_default_opt('P', "Number of number of Stokes parameters", 1, [1,4])
 
-if npol == 1:
+if int(npol) == 1:
     if (not usb):
         # CASE 1
         # ======
@@ -78,7 +78,7 @@ if npol == 1:
         # Prepend header and reverse channels.
         print("Running ugmrt2fil for USB (Total Intensity).")
         os.system("ugmrtusb2fil {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit))
-elif npol == 4:
+elif int(npol) == 4:
     # CASE 3
     # ======
     # LSB or USB with full Stokes mode.
