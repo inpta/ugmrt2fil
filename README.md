@@ -3,7 +3,7 @@ Convert uGMRT raw data files to sigproc-filterbank format.
 
 Usage
 ======
-`$ ugmrt2fil -i <infile> -o <outfile> -j <JNAME> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-h]`
+`$ ugmrt2fil -i <infile> -o <outfile> -j <JNAME> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-B <nbit>] [-h]`
 
 |Option | Description                              |
 |-------|------------------------------------------|
@@ -16,4 +16,5 @@ Usage
 |`-w`   | Bandwidth of a single channel (MHz)      |
 |`-t`   | Sampling time (s)                        |
 |`-u`   | Enable USB (Default is LSB)              |
+|`-B`   | Number of bits (8 or 16; default 16).    |
 |`-h`   | Display help message.                    |
