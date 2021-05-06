@@ -1,7 +1,7 @@
 #ifndef _filhead_h_
 #define _filhead_h_
 
-#include <stdio.h>
+#include <cstdio>
 
 void send_string(FILE *outfile, const char *string);
 void send_float(FILE *outfile, const char *name, float number);

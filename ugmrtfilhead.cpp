@@ -1,6 +1,6 @@
 #include "filhead.h"
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 int main(int argc, char **argv){
 

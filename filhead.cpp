@@ -1,5 +1,5 @@
 #include "filhead.h"
-#include <string.h>
+#include <cstring>
 
 /*
     This part of the code is based on sigproc program by Duncan Lorimer.

@@ -1,7 +1,7 @@
 #include "filhead.h"
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdint>
+#include <cstring>
 
 template<typename T>
 void reverse_channels(T *data, int nchan){
