@@ -32,9 +32,8 @@ void send_long(FILE *outfile, const char *name, long number){
     fwrite(&number, sizeof(long), 1, outfile);
 }
 
-void filterbank_header(FILE *outfile, const char *infilename, const char *jname, double mjd, double freq, double bw, int nchan, double tsmpl){
+void filterbank_header(FILE *outfile, const char *infilename, const char *jname, double mjd, double freq, double bw, int nchan, double tsmpl, int nbits){
     
-    int nbits = 16;
     int nbeams = 1;
     int ibeam = 1;
     int nifs = 1;

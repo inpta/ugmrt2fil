@@ -8,11 +8,11 @@ import getopt
 import sys
 import os
 
-opts, args = getopt.gnu_getopt(sys.argv[1:], 'i:o:j:d:f:c:w:t:uh')
+opts, args = getopt.gnu_getopt(sys.argv[1:], 'i:o:j:d:f:c:w:t:B:uh')
 opts = dict(opts)
 
 def print_usage():
-    print("Usage : ugmrt2fil -i <infile> -o <outfile> -j <JNAME> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-h]")
+    print("Usage : ugmrt2fil -i <infile> -o <outfile> -j <JNAME> -d <mjd> -f <freq> -c <nchan> -w <bandwidth> -t <sampling_time> [-u] [-B <nbit>]  [-h]")
     print("-i   Input file in uGMRT raw data format")
     print("-u   Output file in sigproc filterbank format")
     print("-j   JNAME of the source")
@@ -22,6 +22,7 @@ def print_usage():
     print("-w   Bandwidth of a single channel (MHz)")
     print("-t   Sampling time (s)")
     print("-u   Enable USB (Default is LSB)")
+    print("-B   Number of bits (Default is 16)")
     print("-h   Display this help message.")
 
 def check_req_opt(opt, desc):
@@ -30,6 +31,16 @@ def check_req_opt(opt, desc):
         print_usage() 
         sys.exit(0)
     return opts.get("-"+opt)
+
+def check_nbits():
+    if opts.get("-B") is None:
+        print("Using default 16 bits.")
+        return 16
+    elif opts.get("-B") in ["8","16"]:
+        return int(opts.get("-B"))
+    else:
+        print("<nbit> should be 8 or 16.")
+        sys.exit(0)
 
 if opts.get("-h") is not None:
     print_usage()
@@ -44,17 +55,15 @@ nchan   = check_req_opt('c', "No. of channels")
 bw      = check_req_opt('w', "Bandwidth")
 tsmpl   = check_req_opt('t', "Sampling time")
 usb     = opts.get("-u") is not None
-
+nbit    = check_nbits()
 
 if not usb:
     print("Running ugmrt2fil for LSB.")
     headfile = os.path.basename(outfile) + ".head"
-    os.system("ugmrtfilhead {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, headfile))
+    os.system("ugmrtfilhead {} {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit, headfile))
     os.system("cat {} {} > {}".format(headfile, infile, outfile))
     os.system("rm {}".format(headfile))
 else:
     print("Running ugmrt2fil for USB.")
-    os.system("ugmrtusb2fil {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl))
-    
-    
+    os.system("ugmrtusb2fil {} {} {} {} {} {} {} {} {}".format(infile, outfile, jname, mjd, freq, nchan, bw, tsmpl, nbit))
     

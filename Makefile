@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-O -Wall -Wno-unused-result
+CXXFLAGS=-O2 -Wall -Wno-unused-result
 
 .PHONY: all
 all: ugmrtfilhead ugmrtusb2fil
