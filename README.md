@@ -1,5 +1,5 @@
 # ugmrt2fil
-Convert uGMRT raw data files to sigproc-filterbank format. Only total intensity data is supported at present.
+Convert uGMRT raw data files to sigproc-filterbank format. Only total intensity data 16-bit is supported at present.
 
 Usage
 ======
